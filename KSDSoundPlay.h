@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <mmsystem.h>
 #pragma comment( lib, "winmm.lib" )
 
@@ -42,8 +42,8 @@ private:
 	int							m_ch;
 	int							m_bytes;
 	int							m_PlayPos;
-	unsigned char				m_bData[size*2];		// ƒXƒeƒŒƒI8bito—Í—p	
-	unsigned short				m_sData[size*2];		// ƒXƒeƒŒƒI16bito—Í—p
+	unsigned char				m_bData[size*2];		// ã‚¹ãƒ†ãƒ¬ã‚ª8bitå‡ºåŠ›ç”¨	
+	unsigned short				m_sData[size*2];		// ã‚¹ãƒ†ãƒ¬ã‚ª16bitå‡ºåŠ›ç”¨
 	unsigned int				m_lasterr;
 public:
 	CKSDSoundPlay(void){
@@ -54,20 +54,20 @@ public:
 		timeEndPeriod(1);
 	}
 public:
-	// DSOUND¶¬
+	// DSOUNDç”Ÿæˆ
 	bool Create(LPGUID lpGUID, HWND hParent, unsigned int dwLevel = DSSCL_NORMAL ){
-		// ƒ_ƒCƒŒƒNƒgƒTƒEƒ“ƒhƒIƒuƒWƒFƒNƒg‚Ìì¬
+		// ãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã‚µã‚¦ãƒ³ãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
 		if( m_DSPlay.CreateInstance(DS_CLSID, DS_IID) != 0 ){
-			MessageBox( NULL, _KT("ƒ_ƒCƒŒƒNƒgƒTƒEƒ“ƒhƒLƒƒƒvƒ`ƒƒƒCƒ“ƒXƒ^ƒ“ƒX¶¬ƒGƒ‰["), _KT("ƒGƒ‰["), MB_OK );
+			MessageBox( NULL, _KT("ãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã‚µã‚¦ãƒ³ãƒ‰ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆã‚¨ãƒ©ãƒ¼"), _KT("ã‚¨ãƒ©ãƒ¼"), MB_OK );
 			return false;
 		}
-		// ƒ_ƒCƒŒƒNƒgƒTƒEƒ“ƒh‚Ì‰Šú‰»iNULL=‚³‚¤‚ñ‚ÇƒJ[ƒhƒfƒtƒHƒ‹ƒgg—p)
+		// ãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã‚µã‚¦ãƒ³ãƒ‰ã®åˆæœŸåŒ–ï¼ˆNULL=ã•ã†ã‚“ã©ã‚«ãƒ¼ãƒ‰ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆä½¿ç”¨)
 		if( m_DSPlay.p_pObj.get()->Initialize(lpGUID) != DS_OK ){
 			m_DSPlay.Release();
-			MessageBox( NULL, _KT("ƒ_ƒCƒŒƒNƒgƒTƒEƒ“ƒhƒLƒƒƒvƒ`ƒƒ‰Šú‰»ƒGƒ‰["), _KT("ƒGƒ‰["), MB_OK );
+			MessageBox( NULL, _KT("ãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã‚µã‚¦ãƒ³ãƒ‰ã‚­ãƒ£ãƒ—ãƒãƒ£åˆæœŸåŒ–ã‚¨ãƒ©ãƒ¼"), _KT("ã‚¨ãƒ©ãƒ¼"), MB_OK );
 			return false;
 		}
-		// ‹¦’²ƒŒƒxƒ‹‚Ìİ’è(SECONDARY)
+		// å”èª¿ãƒ¬ãƒ™ãƒ«ã®è¨­å®š(SECONDARY)
 		if( m_DSPlay.p_pObj.get()->SetCooperativeLevel( hParent, dwLevel ) != DS_OK )
 			return false ;
 		return true;
@@ -77,7 +77,7 @@ public:
 		m_DSPlay.Release();
 	}
 
-	// Ä¶ƒoƒbƒtƒ@‚Ìì¬
+	// å†ç”Ÿãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
 	bool CreateBuffer(int chnum, float sec, int bits, unsigned int freq){
 		m_bytes = bits >> 3;
 
@@ -95,7 +95,7 @@ public:
 		memset( &bufdsc, 0, sizeof(DSBUFFERDESC) );
 		bufdsc.dwSize = sizeof(DSBUFFERDESC);
 		bufdsc.dwFlags = flags ;
-		bufdsc.dwBufferBytes = m_bufsize = m_buflen * m_block;	// *2 ‚Í‚¨‚Ü‚¯ƒoƒbƒtƒ@Bæ“¾’PˆÊ‚É‘Î‚µ‚Ä\•ª‚É‘å‚«‚­‚È‚¢‚ÆA‘O‚Ìƒf[ƒ^‚ªÁ‚³‚ê‚é
+		bufdsc.dwBufferBytes = m_bufsize = m_buflen * m_block;	// *2 ã¯ãŠã¾ã‘ãƒãƒƒãƒ•ã‚¡ã€‚å–å¾—å˜ä½ã«å¯¾ã—ã¦ååˆ†ã«å¤§ãããªã„ã¨ã€å‰ã®ãƒ‡ãƒ¼ã‚¿ãŒæ¶ˆã•ã‚Œã‚‹
 		bufdsc.guid3DAlgorithm = DS3DALG_DEFAULT;
 		bufdsc.lpwfxFormat = &waveform;
 		m_lasterr = m_DSPlay.p_pObj.get()->CreateSoundBuffer(
@@ -141,7 +141,7 @@ public:
 	}
 
 	bool StartPlay(){
-		// ƒZƒJƒ“ƒ_ƒŠƒoƒbƒtƒ@‚ğƒNƒŠƒA‚µ‚Ä‚©‚ç
+		// ã‚»ã‚«ãƒ³ãƒ€ãƒªãƒãƒƒãƒ•ã‚¡ã‚’ã‚¯ãƒªã‚¢ã—ã¦ã‹ã‚‰
 		LPVOID lpvPtr1 ; 
 		DWORD dwBytes1 ; 
 		LPVOID lpvPtr2 ; 
@@ -152,7 +152,7 @@ public:
 			hr = m_pDSBuffer->Lock( 0, m_buflen, &lpvPtr1, &dwBytes1, &lpvPtr2, &dwBytes2, 0 );
 		}
 		if (SUCCEEDED(hr)) { 
-			// ƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚É‘‚«‚ŞB
+			// ãƒã‚¤ãƒ³ã‚¿ã®ä½ç½®ã«æ›¸ãè¾¼ã‚€ã€‚
 			memset( lpvPtr1 , 0 , dwBytes1 ) ; 
 			if ( NULL != lpvPtr2 )
 				memset( lpvPtr2 , 0 , dwBytes2 ) ; 
@@ -191,8 +191,8 @@ public:
 		DWORD dwBytes1 ; 
 		LPVOID lpvPtr2 ; 
 		DWORD dwBytes2 ; 
-		// Œ»İÄ¶’†‚Ìƒ|ƒCƒ“ƒg‚Ì0.5•b‚­‚ç‚¢æ‚É‘‚«‚İ‚Ü‚·‚©EEE
-		// ‰ß‹‚Ì‘‚İƒ|ƒCƒ“ƒg‚ª‚ ‚ê‚ÎA‚»‚±‚É‘‚«‚ŞB
+		// ç¾åœ¨å†ç”Ÿä¸­ã®ãƒã‚¤ãƒ³ãƒˆã®0.5ç§’ãã‚‰ã„å…ˆã«æ›¸ãè¾¼ã¿ã¾ã™ã‹ãƒ»ãƒ»ãƒ»
+		// éå»ã®æ›¸è¾¼ã¿ãƒã‚¤ãƒ³ãƒˆãŒã‚ã‚Œã°ã€ãã“ã«æ›¸ãè¾¼ã‚€ã€‚
 		m_PlayPos = 0;
 		HRESULT hr = m_pDSBuffer->Lock( m_PlayPos, len, &lpvPtr1, &dwBytes1, &lpvPtr2, &dwBytes2, 0 );
 		if( DSERR_BUFFERLOST == hr ){
@@ -200,7 +200,7 @@ public:
 			hr = m_pDSBuffer->Lock( m_PlayPos, len, &lpvPtr1,  &dwBytes1, &lpvPtr2, &dwBytes2, 0 );
 		}
 		if (SUCCEEDED(hr)) { 
-			// ƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚É‘‚«‚ŞB
+			// ãƒã‚¤ãƒ³ã‚¿ã®ä½ç½®ã«æ›¸ãè¾¼ã‚€ã€‚
 			memcpy( lpvPtr1 , data , dwBytes1 ) ; 
 			if ( NULL != lpvPtr2 )
 				memcpy( lpvPtr2 , data + dwBytes1 , dwBytes2 ) ; 
@@ -217,8 +217,8 @@ public:
 		DWORD dwBytes1 ; 
 		LPVOID lpvPtr2 ; 
 		DWORD dwBytes2 ; 
-		// Œ»İÄ¶’†‚Ìƒ|ƒCƒ“ƒg‚Ì0.05•b‚­‚ç‚¢æ‚É‘‚«‚İ‚Ü‚·‚©EEE
-		// ‰ß‹‚Ì‘‚İƒ|ƒCƒ“ƒg‚ª‚ ‚ê‚ÎA‚»‚±‚É‘‚«‚ŞB
+		// ç¾åœ¨å†ç”Ÿä¸­ã®ãƒã‚¤ãƒ³ãƒˆã®0.05ç§’ãã‚‰ã„å…ˆã«æ›¸ãè¾¼ã¿ã¾ã™ã‹ãƒ»ãƒ»ãƒ»
+		// éå»ã®æ›¸è¾¼ã¿ãƒã‚¤ãƒ³ãƒˆãŒã‚ã‚Œã°ã€ãã“ã«æ›¸ãè¾¼ã‚€ã€‚
 		DWORD curpos;
 		DWORD playpos;
 		if( m_pDSBuffer->GetCurrentPosition( &playpos, &curpos ) != DS_OK )
@@ -238,12 +238,12 @@ public:
 			hr = m_pDSBuffer->Lock( m_PlayPos, len, &lpvPtr1,  &dwBytes1, &lpvPtr2, &dwBytes2, 0 );
 		}
 		if (SUCCEEDED(hr)) { 
-			// ƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚É‘‚«‚ŞB
+			// ãƒã‚¤ãƒ³ã‚¿ã®ä½ç½®ã«æ›¸ãè¾¼ã‚€ã€‚
 			memcpy( lpvPtr1 , data , dwBytes1 ) ; 
 			if ( NULL != lpvPtr2 )
 				memcpy( lpvPtr2 , data + dwBytes1 , dwBytes2 ) ; 
 			hr = m_pDSBuffer->Unlock( lpvPtr1 , dwBytes1 , lpvPtr2 , dwBytes2 ) ;
-			// ‘‚İƒ|ƒCƒ“ƒg
+			// æ›¸è¾¼ã¿ãƒã‚¤ãƒ³ãƒˆ
 			TRACE("time:%d ppos:%d pos:%d len:%d\n", timeGetTime(), playpos, m_PlayPos, dwBytes1+dwBytes2 );
 			m_PlayPos = (m_PlayPos + dwBytes1 + dwBytes2 ) % m_bufsize;
 			return true;
