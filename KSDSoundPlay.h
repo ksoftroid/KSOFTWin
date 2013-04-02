@@ -16,16 +16,19 @@ using ksmath::LIM;
 using ks03::dx::CKSDXObject;
 #include "./ks03/ksdsoundlock.h"
 
-#if DIRECTSOUND_VERSION >= 0x0800
-		const GUID DS_CLSID =			CLSID_DirectSound8;
-		const GUID DS_IID =				IID_IDirectSound8;
-		typedef LPDIRECTSOUND8			LPDSOUND;
-#else
-		const GUID DS_CLSID =			CLSID_DirectSound;
-		const GUID DS_IID =				IID_IDirectSound;
-		typedef LPDIRECTSOUND			LPDSOUND;
+#ifndef DIRECTSOUND_TYPE
+#define DIRECTSOUND_TYPE
+	#if DIRECTSOUND_VERSION >= 0x0800
+			const GUID DS_CLSID =			CLSID_DirectSound8;
+			const GUID DS_IID =				IID_IDirectSound8;
+			typedef LPDIRECTSOUND8			LPDSOUND;
+	#else
+			const GUID DS_CLSID =			CLSID_DirectSound;
+			const GUID DS_IID =				IID_IDirectSound;
+			typedef LPDIRECTSOUND			LPDSOUND;
+	#endif
+	typedef LPDIRECTSOUNDBUFFER		LPDSOUNDBUFFER;
 #endif
-typedef LPDIRECTSOUNDBUFFER		LPDSOUNDBUFFER;
 
 namespace ksdx{
 
@@ -33,6 +36,7 @@ template< int size, unsigned int flags = DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLFREQUE
 class CKSDSoundPlay
 {
 private:
+	CKSCriticalSection			mCS;
 	CKSDXObject< LPDSOUND >		m_DSPlay;
 	LPDSOUNDBUFFER				m_pDSBuffer;
 	int							m_bufsize;
@@ -146,6 +150,7 @@ public:
 		DWORD dwBytes1 ; 
 		LPVOID lpvPtr2 ; 
 		DWORD dwBytes2 ; 
+		CKSCriticalLock cl(mCS);
 		HRESULT hr = m_pDSBuffer->Lock( 0, m_buflen, &lpvPtr1, &dwBytes1, &lpvPtr2, &dwBytes2, 0 );
 		if( DSERR_BUFFERLOST == hr ){
 			m_pDSBuffer->Restore();
@@ -163,6 +168,7 @@ public:
 		return false;
 	}
 	bool StopPlay(){
+		CKSCriticalLock cl(mCS);
 		return m_pDSBuffer->Stop() == DS_OK;
 	}
 
@@ -194,6 +200,7 @@ public:
 		// 現在再生中のポイントの0.5秒くらい先に書き込みますか・・・
 		// 過去の書込みポイントがあれば、そこに書き込む。
 		m_PlayPos = 0;
+		CKSCriticalLock cl(mCS);
 		HRESULT hr = m_pDSBuffer->Lock( m_PlayPos, len, &lpvPtr1, &dwBytes1, &lpvPtr2, &dwBytes2, 0 );
 		if( DSERR_BUFFERLOST == hr ){
 			m_pDSBuffer->Restore();
@@ -221,6 +228,7 @@ public:
 		// 過去の書込みポイントがあれば、そこに書き込む。
 		DWORD curpos;
 		DWORD playpos;
+		CKSCriticalLock cl(mCS);
 		if( m_pDSBuffer->GetCurrentPosition( &playpos, &curpos ) != DS_OK )
 			return false;
 		if( m_PlayPos < 0 ){
