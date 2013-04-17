@@ -6,6 +6,9 @@
 // K.H 2013/04/02 23:32:27 First Edition
 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #include <stdlib.h>
+#include <math.h>
+#include "KSConst.h"
+//''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 namespace ksmath{
 	//__________________________________________________________________
@@ -67,7 +70,7 @@ namespace ksmath{
 			if(mbSin){
 				mbSin = !mbSin;
 				mAlpha = sqrt( -2.0 * log( mRand.get1<double>() ) );
-				mBeta = TPI2<double>() * mRand.get1<double>();
+				mBeta = ks::TPI2<double>() * mRand.get1<double>();
 				return mAvg + mNorm * sin( mBeta ) * mAlpha;
 			}
 			mbSin = !mbSin;

@@ -102,6 +102,7 @@ public:
 		bufdsc.dwBufferBytes = m_bufsize = m_buflen * m_block;	// *2 はおまけバッファ。取得単位に対して十分に大きくないと、前のデータが消される
 		bufdsc.guid3DAlgorithm = DS3DALG_DEFAULT;
 		bufdsc.lpwfxFormat = &waveform;
+		m_PlayPos = -1;
 		m_lasterr = m_DSPlay.p_pObj.get()->CreateSoundBuffer(
 			reinterpret_cast<LPCDSBUFFERDESC>(&bufdsc),
 			reinterpret_cast<LPDSOUNDBUFFER*>(&m_pDSBuffer),
